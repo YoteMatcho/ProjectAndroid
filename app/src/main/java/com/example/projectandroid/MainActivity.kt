@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column // Importar Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -20,13 +23,22 @@ class MainActivity : ComponentActivity() {
         setContent {
             ProjectAndroidTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    // Certifique-se de que o padding interno seja aplicado se necessário
+                    // App()
+                    Column(modifier = Modifier.padding(innerPadding)) { // Aplicar padding ao Column
+                        App()
+                    }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun App(){
+    Column { // Use Column para organizar os textos verticalmente
+        Text(text = "Água ou Gasolina")
+        Text(text = "Gasolina")
     }
 }
 
