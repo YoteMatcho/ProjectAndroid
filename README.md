@@ -37,7 +37,8 @@ A aplicação exibe uma tela com os textos "Água ou Gasolina" e "Gasolina", seg
 A imagem abaixo mostra a interface de desenvolvimento do Android Studio, com o código-fonte MainActivity.kt à esquerda e o emulador Android à direita, exibindo o resultado da execução do aplicativo, agora com campos de entrada e um fundo colorido.
 
 
-![Screenshot 2º](https://github.com/user-attachments/assets/0854e135-d0a5-42bd-ad46-c8fe9fc2964d)
+![Screenshot 2º](https://github.com/user-attachments/assets/78bdab4e-e90a-4109-a6d1-159a7f466ac3)
+
 
 1º Visão Geral do Projeto:
 
