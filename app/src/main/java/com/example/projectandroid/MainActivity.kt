@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,41 +12,56 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button // Importe o Button
-import androidx.compose.material3.ButtonDefaults // Importe para mudar a cor do botão
+
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.graphics.Color
+
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.foundation.text.KeyboardOptions
+
 import com.example.projectandroid.ui.theme.ProjectAndroidTheme
 
+// MainActivity é a tela principal do seu aplicativo.
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            ProjectAndroidTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    // Este Column aqui é o contêiner principal da sua tela
+        enableEdgeToEdge() // Faz o app usar toda a área da tela, incluindo as bordas do sistema.
 
+        // Define o conteúdo da interface do usuário usando Jetpack Compose.
+        setContent {
+            // Aplica o tema visual do seu aplicativo (cores, fontes, etc.).
+            ProjectAndroidTheme {
+                // Scaffold cria uma estrutura básica de tela, como a área segura para o conteúdo.
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    // Um Column que ocupa a tela toda e aplica o padding do sistema,
+                    // garantindo que o conteúdo não seja escondido por barras do celular.
                     Column(
                         modifier = Modifier
-                            .fillMaxSize() // Faz o Column ocupar a tela toda
-                            .padding(innerPadding) // Aplica o espaço para não sobrepor barras do sistema
+                            .fillMaxSize() // Faz esta coluna ocupar toda a largura e altura.
+                            .padding(innerPadding) // Aplica o padding para evitar sobreposição.
                     ) {
-                        App() // a função que cria o conteúdo do aplicativo
+                        // Chama a função 'App' que contém todo o conteúdo e lógica do seu aplicativo.
+                        App()
                     }
                 }
             }
@@ -53,173 +69,183 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// App é a função Composable principal onde a maior parte da interface e lógica do app está.
 @Composable
 fun App(){
-    // 'valorGasolina' guarda o texto que o usuário digita no campo da gasolina
+
+    // 'valorGasolina' guarda o texto digitado pelo usuário para o preço da gasolina.
     var valorGasolina by remember { mutableStateOf("") }
-    // 'valorAgua' guarda o texto que o usuário digita no campo da água
+    // 'valorAgua' guarda o texto digitado pelo usuário para o preço da água.
     var valorAgua by remember { mutableStateOf("") }
 
-    // 'resultadoTexto' vai mostrar a mensagem final (ex: "Água é melhor!")
+    // 'resultadoTexto' guarda a mensagem que será exibida ao usuário (ex: "Água é mais vantajosa!").
     var resultadoTexto by remember { mutableStateOf("Preencha os valores") }
-    // 'corDoResultado' vai mudar a cor do texto do resultado
-    var corDoResultado by remember { mutableStateOf(Color.White) } // Começa com branco
+    // 'corDoResultado' guarda a cor do texto do resultado, que muda de acordo com o cálculo.
+    var corDoResultado by remember { mutableStateOf(Color.White) }
 
-    // 'mensagemErro' vai guardar uma mensagem se o usuário digitar algo errado
+    // 'mensagemErro' guarda mensagens de erro, como quando o usuário digita algo inválido.
     var mensagemErro by remember { mutableStateOf("") }
 
-    // Lógica para calcular e definir o texto e a cor ---
-    // Esta função vai ser chamada quando o botão "Calcular" for clicado
+    // --- Lógica para Calcular a Melhor Opção ---
+    // Esta é uma função que será executada quando o botão "Calcular" for pressionado.
     val calcularMelhorOpcao = {
-        // Primeiro, tentamos transformar o texto dos campos em números
-        val gasolinaNum = valorGasolina.toDoubleOrNull() // Transforma para número, ou null se não for válido
-        val aguaNum = valorAgua.toDoubleOrNull() // Transforma para número, ou null se não for válido
+        // Converte o texto dos campos para números decimais. 'toDoubleOrNull()' é seguro:
+        // retorna 'null' se o texto não for um número (ex: se o usuário digitar "abc").
+        val gasolinaNum = valorGasolina.toDoubleOrNull()
+        val aguaNum = valorAgua.toDoubleOrNull()
 
-        // Resetar a mensagem de erro a cada cálculo
+        // Limpa qualquer mensagem de erro anterior antes de fazer um novo cálculo.
         mensagemErro = ""
 
-        // Verifica se os dois valores são números válidos
+        // Verifica se ambos os campos têm números válidos.
         if (gasolinaNum != null && aguaNum != null) {
-            // Verifica se o valor da gasolina não é zero para evitar divisão por zero
+            // Verifica se o preço da gasolina não é zero para evitar erros de divisão.
             if (gasolinaNum != 0.0) {
-                val proporcao = aguaNum / gasolinaNum
-
-                // Lógica para decidir se é "Água" ou "Gasolina" (exemplo: se água for até 70% do preço da gasolina)
-                if (proporcao < 0.7) { // Se a água for mais barata (ex: 0.5 significa metade do preço da gasolina)
-                    resultadoTexto = "Gasolina é mais vantajosa!"
-                    corDoResultado = Color.Red // Cor para Gasolina
-                } else if (proporcao > 0.7) { // Se a água for mais cara
-                    resultadoTexto = "Água é mais vantajosa!"
-                    corDoResultado = Color.Green // Cor para Água
-                } else { // Se os preços forem iguais ou a proporção for exata
+                // Primeira condição: verifica se os preços são exatamente iguais.
+                if (gasolinaNum == aguaNum) {
                     resultadoTexto = "Os valores são equivalentes."
-                    corDoResultado = Color.Yellow // Cor para equivalente
+                    corDoResultado = Color.Yellow // Amarelo para indicar equivalência.
+                } else {
+                    // Segunda condição: se os preços não são iguais, compara qual é menor.
+                    if (aguaNum < gasolinaNum) {
+                        resultadoTexto = "Água é mais vantajosa!"
+                        corDoResultado = Color.Green // Verde para indicar que água é melhor.
+                    } else { // Se água não é menor que gasolina (ou seja, é maior)
+                        resultadoTexto = "Gasolina é mais vantajosa!"
+                        corDoResultado = Color.Red // Vermelho para indicar que gasolina é melhor.
+                    }
                 }
             } else {
-                // Se a gasolina for 0, não podemos dividir!
-                mensagemErro = "O valor da Gasolina não pode ser zero."
+                // Mensagem de erro se o preço da gasolina for zero.
+                mensagemErro = "O preço da Gasolina não pode ser zero para o cálculo."
                 resultadoTexto = "Erro!"
-                corDoResultado = Color.Gray // Cor para erro
+                corDoResultado = Color.Gray
             }
         } else {
-            // Se algum dos campos não for um número válido
+            // Mensagem de erro se algum campo não tiver um número válido.
             mensagemErro = "Por favor, digite valores numéricos válidos."
             resultadoTexto = "Erro!"
-            corDoResultado = Color.Gray // Cor para erro
+            corDoResultado = Color.Gray
         }
     }
 
-    // Lógica para o botão "Limpar"
+    // --- Lógica para o Botão "Limpar" ---
+    // Esta função será executada quando o botão "Limpar" for pressionado.
     val limparCampos = {
-        valorGasolina = "" // Limpa o campo da gasolina
-        valorAgua = "" // Limpa o campo da água
-        resultadoTexto = "Preencha os valores" // Volta a mensagem inicial
-        corDoResultado = Color.White // Volta a cor inicial
-        mensagemErro = "" // Limpa a mensagem de erro
+        valorGasolina = "" // Limpa o campo da gasolina.
+        valorAgua = "" // Limpa o campo da água.
+        resultadoTexto = "Preencha os valores" // Volta à mensagem inicial.
+        corDoResultado = Color.White // Volta a cor branca para o resultado.
+        mensagemErro = "" // Limpa qualquer mensagem de erro.
     }
 
-
-    // Design da tela
+    //  Design da Tela do Aplicativo
+    // Coluna principal que organiza todos os elementos verticalmente.
+    // Ela ocupa a tela inteira e centraliza seu conteúdo.
     Column(
         modifier = Modifier
-            .fillMaxSize() // Faz o Column ocupar toda a tela
-            .background(color = Color(0xFF00BCD4)), // Cor de fundo da tela (azul claro)
-        verticalArrangement = Arrangement.Center, // Centraliza os itens verticalmente
-        horizontalAlignment = Alignment.CenterHorizontally // Centraliza os itens horizontalmente
+            .fillMaxSize() // Faz a coluna preencher toda a tela.
+            .background(color = Color(0xFF00BCD4)), // Define a cor de fundo da tela (azul claro).
+        verticalArrangement = Arrangement.Center, // Centraliza o conteúdo verticalmente.
+        horizontalAlignment = Alignment.CenterHorizontally // Centraliza o conteúdo horizontalmente.
     ) {
+        // Uma coluna interna para organizar os itens específicos do app (título, campos, botões)
+        // com espaçamento entre eles.
         Column (
-            verticalArrangement = Arrangement.spacedBy (16.dp), // Espaço entre os componentes
-            horizontalAlignment = Alignment.CenterHorizontally // Centraliza os itens internos deste Column
+            verticalArrangement = Arrangement.spacedBy (16.dp), // Adiciona 16dp de espaço entre cada item.
+            horizontalAlignment = Alignment.CenterHorizontally // Centraliza os itens dentro desta coluna.
         ) {
-            // Título principal do aplicativo
+            // Título do aplicativo.
             Text(
                 text = "Custo: Água ou Gasolina?",
                 style = TextStyle(
-                    color = Color.White, // Cor branca para o título
-                    fontSize = 32.sp
+                    color = Color.White, // Texto branco.
+                    fontSize = 32.sp // Tamanho grande.
                 ),
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold // Negrito.
             )
 
-            // Texto que mostra o resultado (com a cor que muda!)
+            // Texto que exibe o resultado do cálculo.
             Text(
-                text = resultadoTexto,
+                text = resultadoTexto, // O texto muda de acordo com o cálculo.
                 style = TextStyle(
-                    color = corDoResultado, // A cor do texto é definida pela lógica
+                    color = corDoResultado, // A cor do texto muda de acordo com o resultado.
                     fontSize = 30.sp,
                     fontWeight = FontWeight.Bold
                 )
             )
 
-            // Se houver uma mensagem de erro, mostramos ela aqui
+            // Exibe a mensagem de erro APENAS se houver uma mensagem.
             if (mensagemErro.isNotEmpty()) {
                 Text(
                     text = mensagemErro,
                     style = TextStyle(
-                        color = Color.Red, // Cor vermelha para mensagens de erro
+                        color = Color.Red, // Mensagem de erro em vermelho.
                         fontSize = 16.sp
                     )
                 )
             }
 
-            Spacer(modifier = Modifier.size(24.dp)) // Espaço entre o resultado e os campos
+            Spacer(modifier = Modifier.size(24.dp)) // Espaço vazio para separar elementos.
 
-            // Campo para digitar o valor da Gasolina
+            // Campo para o usuário digitar o preço da Gasolina.
             TextField(
-                value = valorGasolina,
-                onValueChange = { novoValor ->
-                    // Aceita apenas números e um ponto decimal
+                value = valorGasolina, // O texto exibido no campo.
+                onValueChange = { novoValor -> // Chamado toda vez que o texto é alterado.
+                    // Validação: permite apenas números e um ponto decimal.
                     if (novoValor.matches(Regex("^\\d*\\.?\\d*\$"))) {
                         valorGasolina = novoValor
                     }
                 },
                 label = {
-                    Text(text = "Preço por litro da Gasolina (€)") // Rótulo do campo
-                }
+                    Text(text = "Preço por litro da Gasolina (€)") // Texto que flutua como rótulo.
+                },
+                // Define o tipo de teclado a ser mostrado (alfanumérico, para permitir o ponto decimal).
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
             )
 
-            // Campo para digitar o valor da Água
+            // Campo para o usuário digitar o preço da Água. Funciona igual ao campo da Gasolina.
             TextField(
                 value = valorAgua,
                 onValueChange = { novoValor ->
-                    // Aceita apenas números e um ponto decimal
                     if (novoValor.matches(Regex("^\\d*\\.?\\d*\$"))) {
                         valorAgua = novoValor
                     }
                 },
                 label = {
-                    Text(text = "Preço por litro da Água (€)") // Rótulo do campo
-                }
+                    Text(text = "Preço por litro da Água (€)")
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
             )
 
-            Spacer(modifier = Modifier.size(16.dp)) // Espaço entre os campos e os botões
+            Spacer(modifier = Modifier.size(16.dp)) // Espaço antes dos botões.
 
-            // --- Botão "Calcular" ---
+            // Botão "Calcular".
             Button(
-                onClick = calcularMelhorOpcao, // Quando clicado, chama a função de cálculo
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)) // Cor verde para o botão
+                onClick = calcularMelhorOpcao, // Quando clicado, executa a lógica de cálculo.
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)) // Cor de fundo verde.
             ) {
-                Text("Calcular")
+                Text("Calcular") // Texto do botão.
             }
 
-            Spacer(modifier = Modifier.size(8.dp)) // Espaço entre os botões
+            Spacer(modifier = Modifier.size(8.dp)) // Espaço entre os botões.
 
-            // --- Botão "Limpar" ---
+            // Botão "Limpar".
             Button(
-                onClick = limparCampos, // Quando clicado, chama a função de limpeza
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF44336)) // Cor vermelha para o botão
+                onClick = limparCampos, // Quando clicado, zera os campos e o resultado.
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF44336)) // Cor de fundo vermelha.
             ) {
-                Text("Limpar")
+                Text("Limpar") // Texto do botão.
             }
         }
     }
 }
 
-// Para manter seu código funcionando no Preview do Android Studio
-@Preview(showBackground = true)
+// Função de pré-visualização no Android Studio.Permite ver como o app ficará sem precisar rodar no emulador.
+@Preview(showBackground = true) // Mostra um fundo para facilitar a visualização.
 @Composable
 fun AppPreview() {
-    ProjectAndroidTheme {
-        App()
+    ProjectAndroidTheme { // Aplica o tema do app para a pré-visualização.
+        App() // Mostra o Composable 'App'.
     }
 }
