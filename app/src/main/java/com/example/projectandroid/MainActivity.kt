@@ -75,10 +75,10 @@ fun App(){
 
     // 'valorGasolina' guarda o texto digitado pelo usuário para o preço da gasolina.
     var valorGasolina by remember { mutableStateOf("") }
-    // 'valorAgua' guarda o texto digitado pelo usuário para o preço da água.
-    var valorAgua by remember { mutableStateOf("") }
+    // 'valorGasoleo' guarda o texto digitado pelo usuário para o preço da gasoleo.
+    var valorGasoleo by remember { mutableStateOf("") }
 
-    // 'resultadoTexto' guarda a mensagem que será exibida ao usuário (ex: "Água é mais vantajosa!").
+    // 'resultadoTexto' guarda a mensagem que será exibida ao usuário (ex: "Gasoleo é mais vantajosa!").
     var resultadoTexto by remember { mutableStateOf("Preencha os valores") }
     // 'corDoResultado' guarda a cor do texto do resultado, que muda de acordo com o cálculo.
     var corDoResultado by remember { mutableStateOf(Color.White) }
@@ -92,24 +92,24 @@ fun App(){
         // Converte o texto dos campos para números decimais. 'toDoubleOrNull()' é seguro:
         // retorna 'null' se o texto não for um número (ex: se o usuário digitar "abc").
         val gasolinaNum = valorGasolina.toDoubleOrNull()
-        val aguaNum = valorAgua.toDoubleOrNull()
+        val gasoleoNum = valorGasoleo.toDoubleOrNull()
 
         // Limpa qualquer mensagem de erro anterior antes de fazer um novo cálculo.
         mensagemErro = ""
 
         // Verifica se ambos os campos têm números válidos.
-        if (gasolinaNum != null && aguaNum != null) {
+        if (gasolinaNum != null && gasoleoNum != null) {
             // Verifica se o preço da gasolina não é zero para evitar erros de divisão.
             if (gasolinaNum != 0.0) {
                 // Primeira condição: verifica se os preços são exatamente iguais.
-                if (gasolinaNum == aguaNum) {
+                if (gasolinaNum == gasoleoNum) {
                     resultadoTexto = "Os valores são equivalentes."
                     corDoResultado = Color.Yellow // Amarelo para indicar equivalência.
                 } else {
                     // Segunda condição: se os preços não são iguais, compara qual é menor.
-                    if (aguaNum < gasolinaNum) {
-                        resultadoTexto = "Água é mais vantajosa!"
-                        corDoResultado = Color.Green // Verde para indicar que água é melhor.
+                    if (gasoleoNum < gasolinaNum) {
+                        resultadoTexto = "Gasoleo é mais vantajosa!"
+                        corDoResultado = Color.Green // Verde para indicar que gasoleo é melhor.
                     } else { // Se água não é menor que gasolina (ou seja, é maior)
                         resultadoTexto = "Gasolina é mais vantajosa!"
                         corDoResultado = Color.Red // Vermelho para indicar que gasolina é melhor.
@@ -133,7 +133,7 @@ fun App(){
     // Esta função será executada quando o botão "Limpar" for pressionado.
     val limparCampos = {
         valorGasolina = "" // Limpa o campo da gasolina.
-        valorAgua = "" // Limpa o campo da água.
+        valorGasoleo = "" // Limpa o campo da água.
         resultadoTexto = "Preencha os valores" // Volta à mensagem inicial.
         corDoResultado = Color.White // Volta a cor branca para o resultado.
         mensagemErro = "" // Limpa qualquer mensagem de erro.
@@ -157,7 +157,7 @@ fun App(){
         ) {
             // Título do aplicativo.
             Text(
-                text = "Custo: Água ou Gasolina?",
+                text = "Custo: Gasoleo ou Gasolina?",
                 style = TextStyle(
                     color = Color.White, // Texto branco.
                     fontSize = 32.sp // Tamanho grande.
@@ -206,14 +206,14 @@ fun App(){
 
             // Campo para o usuário digitar o preço da Água. Funciona igual ao campo da Gasolina.
             TextField(
-                value = valorAgua,
+                value = valorGasoleo,
                 onValueChange = { novoValor ->
                     if (novoValor.matches(Regex("^\\d*\\.?\\d*\$"))) {
-                        valorAgua = novoValor
+                        valorGasoleo = novoValor
                     }
                 },
                 label = {
-                    Text(text = "Preço por litro da Água (€)")
+                    Text(text = "Preço por litro da Gasoleo (€)")
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
             )
