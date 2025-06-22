@@ -1,6 +1,6 @@
 1º Visão Geral do Projeto:
 
-A aplicação exibe uma tela com os textos "Água ou Gasolina" e "Gasolina" dispostos um abaixo do outro. É um ponto de partida para entender como layouts simples podem ser construídos com Jetpack Compose, utilizando componentes como Column e Text.
+A aplicação exibe uma tela com os textos "Gasoleo ou Gasolina" e "Gasolina" dispostos um abaixo do outro. É um ponto de partida para entender como layouts simples podem ser construídos com Jetpack Compose, utilizando componentes como Column e Text.
 
 Estrutura do Código:
 
@@ -37,7 +37,7 @@ A imagem abaixo mostra a interface de desenvolvimento do Android Studio, com o c
 
 1º Visão Geral do Projeto:
 
-A aplicação exibe uma tela com os textos "Água ou Gasolina" e "Gasolina", seguidos por dois campos de texto editáveis. A tela possui um fundo azul-claro, e todos os elementos são organizados verticalmente. Este projeto serve como uma introdução à criação de layouts com Jetpack Compose, incorporando componentes interativos como TextField.
+A aplicação exibe uma tela com os textos "Gasoleo ou Gasolina" e "Gasolina", seguidos por dois campos de texto editáveis. A tela possui um fundo azul-claro, e todos os elementos são organizados verticalmente. Este projeto serve como uma introdução à criação de layouts com Jetpack Compose, incorporando componentes interativos como TextField.
 
 Estrutura do Código: 
 
@@ -76,7 +76,7 @@ A imagem abaixo mostra a interface de desenvolvimento do Android Studio, com o c
 
 1º Visão Geral do Projeto:
 
-A aplicação continua a exibir a tela com os textos "Água ou Gasolina" e "Gasolina", seguidos por dois campos de texto editáveis. A principal mudança nesta versão é que todos esses elementos estão agora centralizados tanto vertical quanto horizontalmente na tela. O fundo da tela continua sendo azul-claro.Este projeto é ideal para entender como alinhar e organizar componentes no Jetpack Compose para criar layouts visualmente equilibrados.
+A aplicação continua a exibir a tela com os textos "Gasoleo ou Gasolina" e "Gasolina", seguidos por dois campos de texto editáveis. A principal mudança nesta versão é que todos esses elementos estão agora centralizados tanto vertical quanto horizontalmente na tela. O fundo da tela continua sendo azul-claro.Este projeto é ideal para entender como alinhar e organizar componentes no Jetpack Compose para criar layouts visualmente equilibrados.
 
 Estrutura do Código:
 
@@ -117,7 +117,7 @@ A imagem abaixo mostra a interface de desenvolvimento do Android Studio, com o c
 
 1º Visão Geral do Projeto:
 
-A aplicação permite ao usuário inserir os preços por litro da "Gasolina" e da "Água" em campos de texto. Ao clicar no botão "Calcular", o aplicativo avalia a proporção entre os preços e exibe uma mensagem indicando qual opção é "mais vantajosa", "mais barata" ou "equivalente", com a cor do texto mudando para refletir o resultado (vermelho para Gasolina, verde para Água, amarelo para equivalente). Há também um botão "Limpar" para redefinir os campos e o resultado, e uma validação básica para garantir que apenas números sejam inseridos, exibindo mensagens de erro quando necessário. A interface é centralizada na tela e possui um fundo azul-claro.
+A aplicação permite ao usuário inserir os preços por litro da "Gasolina" e da "Gasoleo" em campos de texto. Ao clicar no botão "Calcular", o aplicativo avalia a proporção entre os preços e exibe uma mensagem indicando qual opção é "mais vantajosa", "mais barata" ou "equivalente", com a cor do texto mudando para refletir o resultado (vermelho para Gasolina, verde para Água, amarelo para equivalente). Há também um botão "Limpar" para redefinir os campos e o resultado, e uma validação básica para garantir que apenas números sejam inseridos, exibindo mensagens de erro quando necessário. A interface é centralizada na tela e possui um fundo azul-claro.
 
 Estrutura do Código: 
 
