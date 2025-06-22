@@ -162,3 +162,7 @@ A imagem abaixo mostra a interface de desenvolvimento do Android Studio, com o c
 
 
 
+Mudança de nome na comparação agora passa ser Gasoleo.
+
+![Screenshot Ultima Atualição](https://github.com/user-attachments/assets/8c45040a-60c3-418d-983c-a1743df082af)
+
