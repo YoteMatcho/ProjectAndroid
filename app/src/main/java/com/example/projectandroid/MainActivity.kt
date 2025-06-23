@@ -110,7 +110,7 @@ fun App(){
                     corDoResultado = Color.Yellow
                 } else {
                     if (gasoleoNum < gasolinaNum) {
-                        resultadoTexto = "Gasoleo é mais vantajosa!"
+                        resultadoTexto = "Gasóleo é mais vantajosa!"
                         corDoResultado = Color.Green
                     } else {
                         resultadoTexto = "Gasolina é mais vantajosa!"
