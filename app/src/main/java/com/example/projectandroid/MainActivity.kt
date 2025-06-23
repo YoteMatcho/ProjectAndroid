@@ -88,41 +88,38 @@ fun App(){
 
     // --- Lógica para Calcular a Melhor Opção ---
     // Esta é uma função que será executada quando o botão "Calcular" for pressionado.
+
     val calcularMelhorOpcao = {
-        // Converte o texto dos campos para números decimais. 'toDoubleOrNull()' é seguro:
-        // retorna 'null' se o texto não for um número (ex: se o usuário digitar "abc").
         val gasolinaNum = valorGasolina.toDoubleOrNull()
         val gasoleoNum = valorGasoleo.toDoubleOrNull()
 
-        // Limpa qualquer mensagem de erro anterior antes de fazer um novo cálculo.
-        mensagemErro = ""
+        mensagemErro = "" // Limpa qualquer erro anterior
 
-        // Verifica se ambos os campos têm números válidos.
+        // Primeiro, verifica se ambos os valores são numéricos e não nulos
         if (gasolinaNum != null && gasoleoNum != null) {
-            // Verifica se o preço da gasolina não é zero para evitar erros de divisão.
-            if (gasolinaNum != 0.0) {
-                // Primeira condição: verifica se os preços são exatamente iguais.
-                if (gasolinaNum == gasoleoNum) {
-                    resultadoTexto = "Os valores são equivalentes."
-                    corDoResultado = Color.Yellow // Amarelo para indicar equivalência.
-                } else {
-                    // Segunda condição: se os preços não são iguais, compara qual é menor.
-                    if (gasoleoNum < gasolinaNum) {
-                        resultadoTexto = "Gasoleo é mais vantajosa!"
-                        corDoResultado = Color.Green // Verde para indicar que gasoleo é melhor.
-                    } else { // Se água não é menor que gasolina (ou seja, é maior)
-                        resultadoTexto = "Gasolina é mais vantajosa!"
-                        corDoResultado = Color.Red // Vermelho para indicar que gasolina é melhor.
-                    }
-                }
-            } else {
-                // Mensagem de erro se o preço da gasolina for zero.
-                mensagemErro = "O preço da Gasolina não pode ser zero para o cálculo."
+            // Agora, verifica se QUALQUER UM dos valores é zero.
+            // Se gasolinaNum for 0 OU gasoleoNum for 0, exibe um erro.
+            if (gasolinaNum == 0.0 || gasoleoNum == 0.0) { // <--- LINHA MODIFICADA PARA INCLUIR O GASÓLEO
+                mensagemErro = "Os preços da Gasolina e do Gasóleo não podem ser zero."
                 resultadoTexto = "Erro!"
                 corDoResultado = Color.Gray
+            } else {
+                // Se nenhum dos preços for zero, proceed com a lógica de comparação
+                if (gasolinaNum == gasoleoNum) {
+                    resultadoTexto = "Os valores são equivalentes."
+                    corDoResultado = Color.Yellow
+                } else {
+                    if (gasoleoNum < gasolinaNum) {
+                        resultadoTexto = "Gasoleo é mais vantajosa!"
+                        corDoResultado = Color.Green
+                    } else {
+                        resultadoTexto = "Gasolina é mais vantajosa!"
+                        corDoResultado = Color.Red
+                    }
+                }
             }
         } else {
-            // Mensagem de erro se algum campo não tiver um número válido.
+            // Se algum dos campos não for um número válido
             mensagemErro = "Por favor, digite valores numéricos válidos."
             resultadoTexto = "Erro!"
             corDoResultado = Color.Gray
@@ -204,7 +201,7 @@ fun App(){
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
             )
 
-            // Campo para o usuário digitar o preço da Água. Funciona igual ao campo da Gasolina.
+            // Campo para o usuário digitar o preço da Gasoleo. Funciona igual ao campo da Gasolina.
             TextField(
                 value = valorGasoleo,
                 onValueChange = { novoValor ->
