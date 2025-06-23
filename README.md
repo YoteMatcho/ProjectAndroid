@@ -125,7 +125,7 @@ O código principal reside no arquivo MainActivity.kt e é composto por:
 
 MainActivity: A atividade principal da aplicação, responsável por configurar o tema e o layout base da tela.
 App(): Uma função @Composable que contém a maior parte da lógica e da interface do usuário da aplicação:
-Gerenciamento de Estado: Utiliza remember e mutableStateOf para gerenciar o estado dos campos de texto (valorGasolina, valorAgua), o texto do resultado (resultadoTexto), a cor do resultado (corDoResultado) e mensagens de erro (mensagemErro).
+Gerenciamento de Estado: Utiliza remember e mutableStateOf para gerenciar o estado dos campos de texto (valorGasolina, valorGasoleo), o texto do resultado (resultadoTexto), a cor do resultado (corDoResultado) e mensagens de erro (mensagemErro).
 Lógica de Cálculo (calcularMelhorOpcao): Esta função é acionada pelo botão "Calcular". Ela tenta converter os valores de entrada para números (Double). Realiza validações para garantir que os inputs são numéricos e que o preço da gasolina não é zero. Com base na proporção entre os preços da água e da gasolina, ela atualiza o resultadoTexto e a corDoResultado (vermelho, verde, amarelo).
 Lógica de Limpeza (limparCampos): Esta função é acionada pelo botão "Limpar". Ela redefine todos os campos de texto, o texto do resultado e a cor para seus estados iniciais.
 Layout da Interface: Organiza os elementos da UI (título, texto do resultado, campos de texto, botões) dentro de Columns, utilizando fillMaxSize(), background(), verticalArrangement = Arrangement.Center e horizontalAlignment = Alignment.CenterHorizontally para centralizar todo o conteúdo na tela.
